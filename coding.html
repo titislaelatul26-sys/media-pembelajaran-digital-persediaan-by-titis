@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran - Persediaan Barang Dagang</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe0e9 50%, #ffd4e5 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 50%, #e91e63 100%);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 8px 20px rgba(255, 20, 147, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s;
+            z-index: -1;
+        }
+
+        nav a:hover::before {
+            left: 0;
+        }
+
+        nav a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        nav a.active {
+            background: rgba(255, 255, 255, 0.3);
+            border-bottom: 3px solid #fff;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Section Styling */
+        section {
+            display: none;
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 50%, #e91e63 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 15px 40px rgba(255, 20, 147, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Card Styling */
+        .card {
+            background: white;
+            border-left: 6px solid #ff69b4;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.15);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 35px rgba(255, 105, 180, 0.25);
+            transform: translateY(-5px);
+            border-left-color: #ff1493;
+        }
+
+        .card h3 {
+            color: #ff1493;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .card p {
+            color: #555;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .card ul {
+            margin-left: 1.5rem;
+            line-height: 2;
+        }
+
+        .card li {
+            margin-bottom: 0.5rem;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .card li:hover {
+            color: #ff1493;
+            margin-left: 0.5rem;
+        }
+
+        /* Section Title */
+        h2 {
+            margin-bottom: 2rem;
+            color: #ff1493;
+            font-size: 2.5rem;
+            border-bottom: 4px solid #ff69b4;
+            padding-bottom: 1rem;
+            display: inline-block;
+            font-weight: 800;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background: #ff1493;
+            animation: expandWidth 0.6s ease-out forwards;
+        }
+
+        @keyframes expandWidth {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Tujuan Pembelajaran List */
+        .tujuan-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .tujuan-item {
+            background: linear-gradient(135deg, #fff9fb 0%, #ffe6f0 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.1);
+            border-top: 5px solid #ff69b4;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tujuan-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: #ff1493;
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.3s;
+        }
+
+        .tujuan-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .tujuan-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.2);
+        }
+
+        .tujuan-item h4 {
+            color: #ff1493;
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .tujuan-item p {
+            color: #555;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* Pertemuan Grid */
+        .pertemuan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .pertemuan-card {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 50%, #e91e63 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 20px rgba(255, 20, 147, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pertemuan-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .pertemuan-card:hover::before {
+            opacity: 1;
+        }
+
+        .pertemuan-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(255, 20, 147, 0.4);
+        }
+
+        .pertemuan-card h4 {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pertemuan-card p {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Materi Pertemuan Detail */
+        .materi-detail {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.15);
+        }
+
+        .materi-detail h3 {
+            color: #ff1493;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            border-bottom: 4px solid #ff69b4;
+            padding-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .materi-detail h4 {
+            color: #ff1493;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .materi-detail ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .materi-detail li {
+            margin-bottom: 0.8rem;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .materi-detail p {
+            margin-bottom: 1.2rem;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .video-container {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #fff9fb 0%, #ffe6f0 100%);
+            border-radius: 10px;
+            border-left: 4px solid #ff69b4;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 400px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .quiz-link {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 50%, #e91e63 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1.5rem;
+            transition: all 0.3s;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .quiz-link:hover {
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+            transform: translateY(-3px);
+        }
+
+        /* Asesmen Section */
+        .asesmen-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.15);
+        }
+
+        .asesmen-container h3 {
+            color: #ff1493;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .asesmen-container p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: #ff1493;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid #ffb3d9;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: #fff9fb;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ff1493;
+            box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+            background-color: white;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 50%, #e91e63 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            width: 100%;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+        }
+
+        button:hover {
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* About Me Section */
+        .about-profile {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.15);
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            border: 8px solid #ff69b4;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.25);
+            transition: all 0.3s;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 15px 40px rgba(255, 20, 147, 0.35);
+        }
+
+        .about-profile h3 {
+            color: #ff1493;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .about-profile p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            text-align: justify;
+            font-size: 1rem;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #fff9fb 0%, #ffe6f0 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            border-left: 4px solid #ff69b4;
+        }
+
+        .contact-info p {
+            margin-bottom: 1rem;
+            text-align: left;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .contact-info strong {
+            color: #ff1493;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: 4rem;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        footer p {
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 0.5rem;
+                flex-direction: column;
+            }
+
+            nav a {
+                display: block;
+                text-align: center;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding: 3rem 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .pertemuan-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .tujuan-list {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .profile-img {
+                width: 150px;
+                height: 150px;
+                border-width: 6px;
+            }
+
+            .video-container iframe {
+                height: 250px;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .materi-detail {
+                padding: 1.5rem;
+            }
+
+            .pertemuan-card {
+                padding: 1.5rem;
+            }
+
+            h2::after {
+                width: 100% !important;
+            }
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ff69b4;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff1493;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a onclick="showSection('home')">🏠 Home</a></li>
+            <li><a onclick="showSection('tujuan')">🎯 Tujuan</a></li>
+            <li><a onclick="showSection('pertemuan')">📖 Pertemuan</a></li>
+            <li><a onclick="showSection('asesmen')">📝 Asesmen</a></li>
+            <li><a onclick="showSection('about')">👩‍🎓 About Me</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Home Section -->
+        <section id="home" class="active">
+            <div class="hero">
+                <h1>💗 Media Pembelajaran Digital</h1>
+                <p>Persediaan Barang Dagang</p>
+                <p style="font-size: 1rem; opacity: 0.9;">Platform pembelajaran interaktif untuk memahami konsep persediaan barang dagang secara mendalam</p>
+            </div>
+
+            <div class="card">
+                <h3>📚 Tentang Platform Kami</h3>
+                <p>Platform pembelajaran ini dirancang khusus untuk memberikan pengalaman belajar yang optimal mengenai Persediaan Barang Dagang. Materi disajikan secara terstruktur, interaktif, dan mudah dipahami dengan kombinasi teori dan praktik.</p>
+                <p>Setiap pertemuan dilengkapi dengan penjelasan konsep, contoh kasus, video pembelajaran, dan kuis untuk mengukur pemahaman Anda.</p>
+            </div>
+
+            <div class="card">
+                <h3>✨ Menu Utama</h3>
+                <ul>
+                    <li><strong>🎯 Tujuan:</strong> Pahami tujuan dan kompetensi pembelajaran yang ingin dicapai</li>
+                    <li><strong>📖 Pertemuan:</strong> Akses 4 pertemuan dengan materi terstruktur, video, dan kuis interaktif</li>
+                    <li><strong>📝 Asesmen:</strong> Evaluasi pemahaman Anda melalui sistem penilaian akhir</li>
+                    <li><strong>👩‍🎓 About Me:</strong> Mengenal lebih jauh tentang pembuat platform</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Topik Utama</h3>
+                <ul>
+                    <li>Pengertian dan fungsi persediaan barang dagang</li>
+                    <li>Jenis-jenis persediaan dalam perusahaan</li>
+                    <li>Sistem pencatatan persediaan (Periodik dan Perpetual)</li>
+                    <li>Metode penilaian persediaan (FIFO, LIFO, Average)</li>
+                    <li>Pengendalian persediaan dan perhitungan EOQ & ROP</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Tujuan Section -->
+        <section id="tujuan">
+            <h2>🎯 Tujuan Pembelajaran</h2>
+            
+            <div class="card">
+                <h3>Kompetensi yang Diharapkan</h3>
+                <p>Dengan adanya website ini, siswa diharapkan mampu untuk:</p>
+            </div>
+
+            <div class="tujuan-list">
+                <div class="tujuan-item">
+                    <h4>✓ Tujuan 1</h4>
+                    <p>Menjelaskan pengertian persediaan barang dagang serta fungsinya dalam kegiatan operasional perusahaan dagang.</p>
+                </div>
+
+                <div class="tujuan-item">
+                    <h4>✓ Tujuan 2</h4>
+                    <p>Mengidentifikasi jenis-jenis persediaan barang dagang yang umum digunakan dalam kegiatan perdagangan.</p>
+                </div>
+
+                <div class="tujuan-item">
+                    <h4>✓ Tujuan 3</h4>
+                    <p>Membedakan metode pencatatan persediaan, yaitu metode periodik dan perpetual.</p>
+                </div>
+
+                <div class="tujuan-item">
+                    <h4>✓ Tujuan 4</h4>
+                    <p>Menjelaskan metode penilaian persediaan seperti FIFO, LIFO, dan Average (rata-rata).</p>
+                </div>
+
+                <div class="tujuan-item">
+                    <h4>✓ Tujuan 5</h4>
+                    <p>Mengidentifikasi bentuk-bentuk pengendalian persediaan seperti kartu stok, stock opname, sistem kode barang, serta pemisahan fungsi dan tanggung jawab.</p>
+                </div>
+
+                <div class="tujuan-item">
+                    <h4>✓ Tujuan 6</h4>
+                    <p>Menghitung titik pemesanan kembali (Reorder Point/ROP) untuk menentukan kapan harus melakukan pemesanan ulang barang.</p>
+                </div>
+
+                <div class="tujuan-item">
+                    <h4>✓ Tujuan 7</h4>
+                    <p>Menentukan jumlah pembelian yang ekonomis (EOQ) agar biaya penyimpanan dan pemesanan barang dagang lebih efisien.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pertemuan Section -->
+        <section id="pertemuan">
+            <h2>📖 Materi Pertemuan</h2>
+            
+            <div id="pertemuan-grid" class="pertemuan-grid">
+                <div class="pertemuan-card" onclick="showPertemuan(1)">
+                    <h4>📘 Pertemuan 1</h4>
+                    <p><strong>Pengertian & Fungsi</strong></p>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.9;">Persediaan Barang Dagang</p>
+                </div>
+
+                <div class="pertemuan-card" onclick="showPertemuan(2)">
+                    <h4>📗 Pertemuan 2</h4>
+                    <p><strong>Sistem Pencatatan</strong></p>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.9;">Periodik & Perpetual</p>
+                </div>
+
+                <div class="pertemuan-card" onclick="showPertemuan(3)">
+                    <h4>📙 Pertemuan 3</h4>
+                    <p><strong>Penilaian Persediaan</strong></p>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.9;">FIFO, LIFO, Average</p>
+                </div>
+
+                <div class="pertemuan-card" onclick="showPertemuan(4)">
+                    <h4>📕 Pertemuan 4</h4>
+                    <p><strong>Pengendalian Persediaan</strong></p>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.9;">EOQ & ROP</p>
+                </div>
+            </div>
+
+            <!-- Pertemuan 1 Detail -->
+            <div id="detail-1" style="display: none;">
+                <div class="materi-detail">
+                    <h3>📘 Pertemuan 1: Pengertian & Fungsi Persediaan Barang Dagang</h3>
+
+                    <h4>Apa itu Persediaan Barang Dagang?</h4>
+                    <p>Persediaan barang dagangan adalah barang yang dimiliki perusahaan untuk dijual kembali dalam kegiatan usahanya. Pada perusahaan dagang, persediaan ini berupa produk siap jual. Pada perusahaan manufaktur biasanya dibedakan menjadi bahan baku, barang dalam proses dan barang jadi. Intinya, persediaan adalah stok yang disiapkan agar kegiatan penjualan tidak terhenti.</p>
+
+                    <h4>Fungsi Persediaan</h4>
+                    <ul>
+                        <li><strong>Menjamin kelancaran penjualan:</strong> Jika stok tersedia, pelanggan tidak perlu menunggu dan perusahaan tidak kehilangan kesempatan penjualan.</li>
+                        <li><strong>Menjaga kestabilan harga:</strong> Stok yang cukup membantu perusahaan tidak perlu sering mengubah harga akibat keterbatasan barang.</li>
+                        <li><strong>Sebagai investasi jangka pendek:</strong> Persediaan adalah aset lancar yang bisa segera diuangkan kembali melalui penjualan.</li>
+                        <li><strong>Menentukan Harga Pokok Penjualan (HPP):</strong> Nilai persediaan akan memengaruhi perhitungan HPP sehingga penting dicatat dengan benar.</li>
+                        <li><strong>Dasar perencanaan pembelian:</strong> Data stok membantu bagian pembelian menentukan kapan dan berapa banyak barang perlu ditambah.</li>
+                    </ul>
+
+                    <h4>Jenis Persediaan</h4>
+                    <p>Secara umum persediaan dapat dikelompokkan menjadi:</p>
+                    <ul>
+                        <li><strong>Bahan baku (raw materials):</strong> Bahan utama yang akan diolah menjadi produk. Contoh: kain untuk konveksi, tepung untuk roti.</li>
+                        <li><strong>Barang dalam proses (work in process):</strong> Barang yang sedang dikerjakan dan belum menjadi produk akhir.</li>
+                        <li><strong>Barang jadi atau barang dagang (merchandise inventory):</strong> Barang yang sudah siap dijual kembali tanpa diubah bentuknya.</li>
+                    </ul>
+
+                    <h4>Faktor yang Mempengaruhi Besarnya Persediaan</h4>
+                    <ul>
+                        <li><strong>Permintaan pasar:</strong> Permintaan tinggi berarti stok harus lebih banyak.</li>
+                        <li><strong>Kebijakan pembelian:</strong> Perusahaan yang membeli dalam jumlah besar biasanya menyimpan stok lebih banyak.</li>
+                        <li><strong>Waktu tunggu pengiriman:</strong> Jika pengiriman pemasok lama, perusahaan perlu stok cadangan.</li>
+                        <li><strong>Biaya penyimpanan:</strong> Kapasitas gudang dan biaya simpan akan membatasi jumlah persediaan.</li>
+                    </ul>
+
+                    <h4>Kepemilikan Persediaan dalam Perjalanan</h4>
+                    <ul>
+                        <li><strong>FOB Shipping Point:</strong> Hak milik berpindah ke pembeli sejak barang diserahkan ke perusahaan pengangkut.</li>
+                        <li><strong>FOB Destination Point:</strong> Hak milik baru berpindah saat barang tiba di tempat pembeli.</li>
+                    </ul>
+
+                    <h4>Sistem Pencatatan Persediaan</h4>
+                    <ul>
+                        <li><strong>Sistem Perpetual:</strong> Setiap transaksi pembelian dan penjualan langsung dicatat ke akun persediaan.</li>
+                        <li><strong>Sistem Periodik:</strong> Perubahan persediaan tidak dicatat setiap transaksi. Perhitungan baru dilakukan di akhir periode.</li>
+                    </ul>
+
+                    <div class="video-container">
+                        <strong>📹 Video Pembelajaran:</strong><br><br>
+                        <iframe src="https://www.youtube.com/embed/OTy0rDfrWKg" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+
+                    <a href="https://www.educaplay.com/learning-resources/26518095-kuis_pertemuan_1.html" target="_blank" class="quiz-link">📚 Kerjakan Quiz Pertemuan 1</a>
+
+                    <button onclick="showPertemuan(0)" style="margin-top: 1.5rem; background: linear-gradient(135deg, #888 0%, #555 100%);">← Kembali ke Daftar Pertemuan</button>
+                </div>
+            </div>
+
+            <!-- Pertemuan 2 Detail -->
+            <div id="detail-2" style="display: none;">
+                <div class="materi-detail">
+                    <h3>📗 Pertemuan 2: Sistem Pencatatan Persediaan Barang Dagang</h3>
+
+                    <p>Persediaan adalah aset penting di perusahaan dagang karena menjadi sumber utama pendapatan. Supaya nilai persediaan tercatat dengan benar, digunakan sistem pencatatan persediaan. Secara umum ada dua sistem yang dipakai, yaitu sistem periodik dan sistem perpetual.</p>
+
+                    <h4>1. Sistem Periodik</h4>
+                    <p>Sistem periodik adalah sistem pencatatan persediaan yang baru diketahui jumlah akhirnya pada akhir periode akuntansi setelah dilakukan perhitungan fisik di gudang (stock opname).</p>
+                    
+                    <h4>Ciri dan Cara Kerja:</h4>
+                    <ul>
+                        <li>Setiap pembelian barang dagang dicatat ke akun Pembelian, bukan langsung ke akun Persediaan.</li>
+                        <li>Jika ada retur pembelian atau potongan pembelian, dicatat ke akun tersendiri.</li>
+                        <li>Di akhir periode dilakukan penghitungan fisik barang di gudang.</li>
+                        <li>Setelah diketahui persediaan akhir, dibuat jurnal penyesuaian untuk menentukan HPP.</li>
+                    </ul>
+
+                    <h4>Kelebihan:</h4>
+                    <ul>
+                        <li>Pencatatan lebih sederhana.</li>
+                        <li>Cocok untuk usaha kecil yang transaksi stoknya belum terlalu banyak.</li>
+                    </ul>
+
+                    <h4>Kekurangan:</h4>
+                    <ul>
+                        <li>Stok tidak bisa diketahui secara real time.</li>
+                        <li>Jika ada barang hilang atau rusak di tengah periode, sulit langsung terdeteksi.</li>
+                    </ul>
+
+                    <h4>2. Sistem Perpetual</h4>
+                    <p>Sistem perpetual adalah sistem pencatatan yang langsung mengubah akun Persediaan setiap kali terjadi transaksi, baik pembelian maupun penjualan.</p>
+
+                    <h4>Ciri dan Cara Kerja:</h4>
+                    <ul>
+                        <li>Pembelian barang dagang langsung menambah akun Persediaan.</li>
+                        <li>Saat terjadi penjualan, dicatat dua kali. Pertama untuk penjualannya, kedua untuk mengurangi persediaan.</li>
+                        <li>Saldo persediaan bisa dilihat kapan saja tanpa menunggu akhir periode.</li>
+                    </ul>
+
+                    <h4>Kelebihan:</h4>
+                    <ul>
+                        <li>Informasi stok lebih akurat dan terkini.</li>
+                        <li>Lebih mudah mengawasi barang hilang, rusak atau kadaluwarsa.</li>
+                        <li>Cocok untuk perusahaan yang transaksinya banyak dan butuh kontrol stok ketat.</li>
+                    </ul>
+
+                    <h4>Perbedaan Sistem Periodik dan Perpetual</h4>
+                    <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                        <tr style="background: #ffb3d9;">
+                            <th style="border: 2px solid #ff69b4; padding: 0.75rem; text-align: left; font-weight: 700; color: #fff;">Aspek</th>
+                            <th style="border: 2px solid #ff69b4; padding: 0.75rem; text-align: left; font-weight: 700; color: #fff;">Periodik</th>
+                            <th style="border: 2px solid #ff69b4; padding: 0.75rem; text-align: left; font-weight: 700; color: #fff;">Perpetual</th>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ffb3d9; padding: 0.75rem;"><strong>Cara Pencatatan</strong></td>
+                            <td style="border: 1px solid #ffb3d9; padding: 0.75rem;">Ke akun Pembelian</td>
+                            <td style="border: 1px solid #ffb3d9; padding: 0.75rem;">Ke akun Persediaan</td>
+                        </tr>
+                        <tr style="background: #fff9fb;">
+                            <td style="border: 1px solid #ffb3d9; padding: 0.75rem;"><strong>Kapan Tahu Stok</strong></td>
+                            <td style="border: 1px solid #ffb3d9; padding: 0.75rem;">Akhir periode</td>
+                            <td style="border: 1px solid #ffb3d9; padding: 0.75rem;">Real-time</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ffb3d9; padding: 0.75rem;"><strong>Hitung HPP</strong></td>
+                            <td style="border: 1px solid #ffb3d9; padding: 0.75rem;">Di akhir periode</td>
+                            <td style="border: 1px solid #ffb3d9; padding: 0.75rem;">Setiap penjualan</td>
+                        </tr>
+                    </table>
+
+                    <a href="https://www.educaplay.com/learning-resources/26518882-quiz_pertemuan_2.html" target="_blank" class="quiz-link">📚 Kerjakan Quiz Pertemuan 2</a>
+
+                    <button onclick="showPertemuan(0)" style="margin-top: 1.5rem; background: linear-gradient(135deg, #888 0%, #555 100%);">← Kembali ke Daftar Pertemuan</button>
+                </div>
+            </div>
+
+            <!-- Pertemuan 3 Detail -->
+            <div id="detail-3" style="display: none;">
+                <div class="materi-detail">
+                    <h3>📙 Pertemuan 3: Penilaian Persediaan</h3>
+
+                    <p>Penilaian persediaan diperlukan agar perusahaan tahu berapa nilai barang yang masih ada di gudang dan berapa yang sudah menjadi beban (Harga Pokok Penjualan).</p>
+
+                    <h4>1. Penilaian dengan Pendekatan Arus Harga Pokok</h4>
+                    <p>Pendekatan ini mengatur urutan mana yang dianggap keluar duluan dari gudang.</p>
+
+                    <h4>a. FIFO (First In First Out)</h4>
+                    <p>Barang yang pertama masuk dianggap yang pertama keluar. Artinya persediaan akhir dinilai dengan harga pembelian yang paling baru.</p>
+
+                    <h4>b. LIFO (Last In First Out)</h4>
+                    <p>Barang yang terakhir masuk dianggap yang pertama keluar. Persediaan akhir dinilai dengan harga yang lama.</p>
+
+                    <h4>c. Metode Rata-rata (Average)</h4>
+                    <p>Harga pokok per unit dihitung dari rata-rata biaya perolehan. Hasilnya biasanya berada di tengah-tengah FIFO dan LIFO.</p>
+
+                    <h4>2. Penilaian Persediaan Selain Arus Harga Pokok</h4>
+
+                    <h4>a. Lower of Cost or Market (LCM)</h4>
+                    <p>Persediaan dinilai berdasarkan nilai yang lebih rendah antara harga pokok dan harga pasar.</p>
+
+                    <h4>b. Gross Profit Method</h4>
+                    <p>Metode ini sifatnya estimasi. Dipakai kalau dokumen persediaan hilang, misalnya karena bencana.</p>
+
+                    <h4>c. Retail Method</h4>
+                    <p>Dipakai toko ritel yang punya banyak item. Menghitung persediaan akhir berdasarkan harga jual (ritel).</p>
+
+                    <a href="https://create.kahoot.it/share/quiz-pertemuan-3/cb397fc3-a821-4b75-90a4-3334ef6cb9c5" target="_blank" class="quiz-link">📚 Kerjakan Quiz Pertemuan 3</a>
+
+                    <button onclick="showPertemuan(0)" style="margin-top: 1.5rem; background: linear-gradient(135deg, #888 0%, #555 100%);">← Kembali ke Daftar Pertemuan</button>
+                </div>
+            </div>
+
+            <!-- Pertemuan 4 Detail -->
+            <div id="detail-4" style="display: none;">
+                <div class="materi-detail">
+                    <h3>📕 Pertemuan 4: Pengendalian Persediaan Barang Dagang</h3>
+
+                    <p>Pengendalian persediaan adalah upaya perusahaan untuk menjaga supaya stok barang di gudang selalu dalam jumlah yang pas.</p>
+
+                    <h4>Tujuan Pengendalian Persediaan</h4>
+                    <ul>
+                        <li>Menjamin barang tersedia saat dibutuhkan pelanggan.</li>
+                        <li>Menghindari kelebihan stok yang bikin biaya simpan membengkak.</li>
+                        <li>Mengurangi risiko kehilangan, pencurian atau kerusakan.</li>
+                        <li>Menjaga arus kas tetap sehat karena persediaan tidak menahan terlalu banyak dana.</li>
+                    </ul>
+
+                    <h4>1. EOQ (Economic Order Quantity)</h4>
+                    <p>EOQ adalah cara menghitung jumlah pembelian yang paling ekonomis setiap kali pesan. Tujuannya supaya total biaya persediaan jadi paling rendah.</p>
+
+                    <h4>2. Safety Stock dan Reorder Point (ROP)</h4>
+                    <p>Kadang permintaan tiba tiba naik atau barang datang terlambat. Untuk jaga jaga, perusahaan menyiapkan stok cadangan yang disebut safety stock.</p>
+                    <p>Supaya tidak kehabisan barang, digunakan titik pemesanan kembali atau Reorder Point (ROP).</p>
+
+                    <h4>Pencatatan dan Pengawasan Fisik</h4>
+                    <h4>1. Kartu Persediaan</h4>
+                    <p>Setiap barang yang masuk dan keluar dicatat di kartu persediaan atau sistem stok.</p>
+
+                    <h4>2. Stock Opname</h4>
+                    <p>Ini adalah kegiatan hitung langsung barang di gudang. Biasanya dilakukan di akhir periode atau jika ada selisih antara catatan dan stok nyata.</p>
+
+                    <h4>Sistem Pengendalian Internal Persediaan</h4>
+                    <ul>
+                        <li><strong>Pemisahan tugas:</strong> Pembelian, penerimaan, penyimpanan dan pencatatan dikerjakan orang berbeda.</li>
+                        <li><strong>Otorisasi:</strong> Setiap pengeluaran dan pembelian barang harus disetujui pejabat yang berwenang.</li>
+                        <li><strong>Dokumentasi:</strong> Gunakan bukti penerimaan, faktur dan bukti keluar masuk barang.</li>
+                        <li><strong>Pemeriksaan berkala:</strong> Bisa lewat audit internal atau stock opname.</li>
+                        <li><strong>Komputerisasi:</strong> Pencatatan berbasis sistem untuk akurasi dan kecepatan data.</li>
+                    </ul>
+
+                    <a href="https://quiz.com/c7d34948-eeb6-4218-bf9b-b8cbb4343976/" target="_blank" class="quiz-link">📚 Kerjakan Quiz Pertemuan 4</a>
+
+                    <button onclick="showPertemuan(0)" style="margin-top: 1.5rem; background: linear-gradient(135deg, #888 0%, #555 100%);">← Kembali ke Daftar Pertemuan</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Asesmen Section -->
+        <section id="asesmen">
+            <h2>📝 Asesmen Akhir</h2>
+            
+            <div class="asesmen-container">
+                <h3>Penilaian Akhir Pembelajaran</h3>
+                <p>Silakan isi form penilaian akhir berikut untuk mengevaluasi pemahaman Anda terhadap materi Persediaan Barang Dagang:</p>
+                
+                <form onsubmit="submitAsesmen(event)">
+                    <div class="form-group">
+                        <label for="nama">👤 Nama Peserta:</label>
+                        <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap Anda" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">📧 Email:</label>
+                        <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nim">🆔 NIM/ID (opsional):</label>
+                        <input type="text" id="nim" name="nim" placeholder="Nomor Induk Mahasiswa/Siswa">
+                    </div>
+
+                    <div class="form-group">
+                        <label>❓ Apakah Anda memahami pengertian dan fungsi persediaan barang dagang?</label>
+                        <select name="q1" required>
+                            <option value="">-- Pilih Jawaban --</option>
+                            <option value="sangat-paham">Sangat Paham</option>
+                            <option value="paham">Paham</option>
+                            <option value="cukup-paham">Cukup Paham</option>
+                            <option value="kurang-paham">Kurang Paham</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>❓ Tingkat kesulitan materi keseluruhan?</label>
+                        <select name="q2" required>
+                            <option value="">-- Pilih Jawaban --</option>
+                            <option value="mudah">Mudah</option>
+                            <option value="sedang">Sedang</option>
+                            <option value="sulit">Sulit</option>
+                            <option value="sangat-sulit">Sangat Sulit</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>❓ Metode pembelajaran yang paling membantu?</label>
+                        <select name="q3" required>
+                            <option value="">-- Pilih Jawaban --</option>
+                            <option value="materi-tertulis">Materi Tertulis</option>
+                            <option value="video">Video Pembelajaran</option>
+                            <option value="kuis-interaktif">Kuis Interaktif</option>
+                            <option value="semua-sama">Semua Sama Membantu</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedback">💬 Masukan dan Saran untuk Platform:</label>
+                        <textarea id="feedback" name="feedback" placeholder="Tulis masukan atau saran Anda di sini..." required></textarea>
+                    </div>
+
+                    <button type="submit">✓ Kirim Asesmen Akhir</button>
+                </form>
+
+                <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #fff9fb 0%, #ffe6f0 100%); border-radius: 10px; border-left: 4px solid #ff69b4;">
+                    <p style="color: #333; margin-bottom: 1rem; font-weight: 700;"><strong>📊 Penilaian Komprehensif:</strong></p>
+                    <p style="color: #666; margin-bottom: 1rem;">Untuk penilaian yang lebih komprehensif, silakan isi form Google berikut:</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfErNF1Q27nFomHKwn1vI5LanvwBjY1bj-wUQ2_QzHhrsU3ng/viewform" target="_blank" class="quiz-link">📊 Buka Form Penilaian Google</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about">
+            <h2>👩‍🎓 Tentang Saya</h2>
+
+            <div class="about-profile">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff69b4;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23ff1493;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='100' cy='100' r='100' fill='url(%23grad)'/%3E%3Ctext x='50%25' y='50%25' font-size='80' fill='white' text-anchor='middle' dy='.3em'%3E👩‍🎓%3C/text%3E%3C/svg%3E" alt="Profil" class="profile-img">
+                
+                <h3>Titis Laelatul Khasanah</h3>
+                <p><strong>Mahasiswa Program Studi Pendidikan Akuntansi</strong></p>
+                <p>Universitas Negeri Semarang (UNNES)</p>
+            </div>
+
+            <div class="card">
+                <h3>📖 Tentang Platform Ini</h3>
+                <p>Halo! Perkenalkan, saya Titis Laelatul Khasanah, mahasiswa Program Studi Pendidikan Akuntansi.</p>
+                <p>Website ini saya buat sebagai bagian dari tugas mata kuliah <strong>Accounting Instructional Material and Media</strong>, dengan topik pembelajaran:</p>
+                <p style="text-align: center; font-size: 1.1rem; color: #ff1493; font-weight: 800; margin: 1.5rem 0; padding: 1rem; background: linear-gradient(135deg, #fff9fb 0%, #ffe6f0 100%); border-radius: 8px; border-left: 4px solid #ff69b4;">
+                    "Persediaan Barang Dagang"
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Visi dan Misi</h3>
+                <p><strong style="color: #ff1493;">Visi:</strong> Melalui media ini, saya berharap pembelajaran tentang persediaan barang dagang dapat menjadi lebih menarik, mudah dipahami, dan interaktif.</p>
+                <p><strong style="color: #ff1493;">Misi:</strong> Membantu peserta didik memahami bagaimana perusahaan dagang mengelola persediaannya secara efektif, sehingga mereka dapat mengaplikasikan ilmu ini dalam dunia kerja.</p>
+            </div>
+
+            <div class="card">
+                <h3>📚 Latar Belakang Pendidikan</h3>
+                <ul>
+                    <li><strong>Program Studi:</strong> Pendidikan Akuntansi</li>
+                    <li><strong>Universitas:</strong> Universitas Negeri Semarang (UNNES)</li>
+                    <li><strong>Fokus Pembelajaran:</strong> Akuntansi Keuangan, Media Pembelajaran Digital</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>📞 Hubungi Saya</h3>
+                <div class="contact-info">
+                    <p>📧 <strong>Email:</strong> titislaelatul26@students.unnes.ac.id</p>
+                    <p>🎓 <strong>Institusi:</strong> UNNES (Universitas Negeri Semarang)</p>
+                    <p>📍 <strong>Program Studi:</strong> Pendidikan Akuntansi</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💡 Pesan Terakhir</h3>
+                <p>Terima kasih telah menggunakan platform pembelajaran ini. Semoga materi yang disajikan dapat membantu Anda memahami konsep Persediaan Barang Dagang dengan lebih baik. Jika ada pertanyaan atau masukan, jangan ragu untuk menghubungi saya melalui email yang tersedia.</p>
+                <p style="margin-top: 1rem; font-style: italic; color: #ff1493; font-weight: 700;">Selamat belajar dan semoga sukses! 🌟</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Media Pembelajaran - Persediaan Barang Dagang</p>
+        <p>Dibuat oleh: Titis Laelatul Khasanah | Universitas Negeri Semarang (UNNES)</p>
+        <p>Email: titislaelatul26@students.unnes.ac.id</p>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            for (let i = 1; i <= 4; i++) {
+                const detail = document.getElementById(`detail-${i}`);
+                if (detail) {
+                    detail.style.display = 'none';
+                }
+            }
+
+            if (sectionId === 'pertemuan') {
+                const grid = document.getElementById('pertemuan-grid');
+                if (grid) {
+                    grid.style.display = 'grid';
+                }
+            }
+
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            window.scrollTo(0, 0);
+        }
+
+        function showPertemuan(pertemuanNum) {
+            if (pertemuanNum === 0) {
+                document.getElementById('pertemuan-grid').style.display = 'grid';
+                for (let i = 1; i <= 4; i++) {
+                    document.getElementById(`detail-${i}`).style.display = 'none';
+                }
+            } else {
+                document.getElementById('pertemuan-grid').style.display = 'none';
+                for (let i = 1; i <= 4; i++) {
+                    document.getElementById(`detail-${i}`).style.display = i === pertemuanNum ? 'block' : 'none';
+                }
+            }
+            window.scrollTo(0, 0);
+        }
+
+        function submitAsesmen(event) {
+            event.preventDefault();
+            const nama = document.getElementById('nama').value;
+            alert(`✓ Terima kasih ${nama}!\n\nAsesmen Anda telah berhasil dikirim. Kami akan meninjau jawaban Anda dan memberikan feedback dalam waktu singkat.\n\nSemoga Anda mendapatkan hasil yang maksimal!`);
+            event.target.reset();
+            showSection('home');
+        }
+    </script>
+</body>
+</html>
